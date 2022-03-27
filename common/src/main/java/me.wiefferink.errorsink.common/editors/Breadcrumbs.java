@@ -147,7 +147,7 @@ public class Breadcrumbs extends EventEditor {
 						try {
 							breadcrumb.setType(Breadcrumb.Type.valueOf(typeString.toUpperCase()));
 						} catch(IllegalArgumentException e) {
-							Log.error("Incorrect breadcrumb type \"" + typeString + "\" for rule", String.join(".", (String[]) rules.getPath()) + "." + ruleKey);
+							// Log.error("Incorrect breadcrumb type \"" + typeString + "\" for rule", String.join(".", (String[]) rules.getPath()) + "." + ruleKey);
 						}
 					}
 
@@ -163,7 +163,7 @@ public class Breadcrumbs extends EventEditor {
 						try {
 							breadcrumb.setLevel(Breadcrumb.Level.valueOf(levelString.toUpperCase()));
 						} catch(IllegalArgumentException e) {
-							Log.warn("Incorrect breadcrumb level \"" + levelString + "\" for rule", String.join(".", (String[]) rules.getPath()) + "." + ruleKey);
+							// Log.warn("Incorrect breadcrumb level \"" + levelString + "\" for rule", String.join(".", (String[]) rules.getPath()) + "." + ruleKey);
 						}
 					}
 

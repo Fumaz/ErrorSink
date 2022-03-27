@@ -10,7 +10,6 @@ import me.wiefferink.errorsink.common.ErrorSinkSentryAppender;
 import me.wiefferink.errorsink.common.EventRuleMatcher;
 import me.wiefferink.errorsink.common.Log;
 import me.wiefferink.errorsink.common.editors.Breadcrumbs;
-import me.wiefferink.errorsink.spigot.tools.Analytics;
 import me.wiefferink.errorsink.spigot.tools.Utils;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
@@ -104,10 +103,6 @@ public class SpigotErrorSink extends JavaPlugin implements ErrorSinkPlugin {
 		// Just to be sure
 		Utils.run(20L, bukkitSentryClientFactory::updateInAppFrames);
 
-		if(getConfig().getBoolean("sendStats")) {
-			Analytics.start();
-		}
-
 		this.getCommand("exception").setExecutor(new DeliberateException());
 	}
 
@@ -198,20 +193,11 @@ public class SpigotErrorSink extends JavaPlugin implements ErrorSinkPlugin {
 	 */
 	@Override
 	public long getTimeStamp(LogEvent event) {
-		// Changed event.getTimeMillis() to event.getMillis(), Minecraft 1.11 and lower uses log4j 2.0-beta9, Sentry builds with 2.5
-		if(hasOldLog4j2) {
-			try {
-				Method method = event.getClass().getMethod("getMillis");
-				return (long) method.invoke(event);
-			} catch(NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				Log.debug("Failed to use getMillis on LogEvent:", ExceptionUtils.getStackTrace(e));
-				// Return something that is kind of close
-				return Calendar.getInstance().getTimeInMillis();
-			}
+		try {
+			return event.getTimeMillis();
+		} catch (Exception e) {
+			return Calendar.getInstance().getTimeInMillis();
 		}
-
-		// Normal new log4j
-		return event.getTimeMillis();
 	}
 
 	@Override

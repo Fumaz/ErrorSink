@@ -55,10 +55,10 @@ public class EventRuleMatcher {
 		Log.debug("Preparing EventRuleMatcher:", criteria.getPath());
 
 		// Level preparation
-		List<String> levels = null;
+		List<String> levels = Arrays.asList("INFO", "DEBUG", "OFF");
 		try {
-			levels = criteria.getNode("matchLevel").getList(TypeToken.of(String.class));
-		} catch (ObjectMappingException e) {
+			// levels = criteria.getNode("matchLevel").getList(TypeToken.of(String.class));
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
@@ -104,8 +104,8 @@ public class EventRuleMatcher {
 		List<Pattern> result = null;
 		List<String> regexes = null;
 		try {
-			regexes = section.getNode(path).getList(TypeToken.of(String.class));
-		} catch (ObjectMappingException e) {
+			// regexes = section.getNode(path).getList(TypeToken.of(String.class));
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
